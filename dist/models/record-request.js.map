@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/models/record-request.ts"],
+  "sourcesContent": ["export interface RecordRequest {\n  url: string;\n  request: any;\n  requestData: { [key: string]: any };\n  response: { [key: string]: any };\n}\n"],
+  "mappings": ";;AAAA;",
+  "names": []
+}

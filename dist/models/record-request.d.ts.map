@@ -1,0 +1,1 @@
+{"version":3,"file":"record-request.d.ts","sourceRoot":"","sources":["../../src/models/record-request.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,aAAa;IAC5B,GAAG,EAAE,MAAM,CAAC;IACZ,OAAO,EAAE,GAAG,CAAC;IACb,WAAW,EAAE;QAAE,CAAC,GAAG,EAAE,MAAM,GAAG,GAAG,CAAA;KAAE,CAAC;IACpC,QAAQ,EAAE;QAAE,CAAC,GAAG,EAAE,MAAM,GAAG,GAAG,CAAA;KAAE,CAAC;CAClC"}

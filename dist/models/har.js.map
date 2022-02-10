@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/models/har.ts"],
+  "sourcesContent": ["export interface HAR {\n  log: {\n    entries: [\n      {\n        request: {\n          url: string;\n          postData: {\n            text: string;\n          };\n        };\n        response: {\n          content: {\n            text: string;\n            mimeType: string;\n          };\n        };\n      }\n    ];\n  };\n}"],
+  "mappings": ";;AAAA;",
+  "names": []
+}
