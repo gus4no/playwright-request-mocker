@@ -74,16 +74,20 @@ const useNetworkRecordMocks = (_0, ..._1) => __async(void 0, [_0, ..._1], functi
   const basePath = fileName ? fileName : `${(0, import_utils.getCallerFile)().replace(".ts", "").replace(".js", "")}${identifier ? `.${identifier}` : ""}`;
   const path = `${basePath}.mocks.json`;
   let requests = [];
+  let patternRegExp;
+  if (urlPattern) {
+    patternRegExp = new RegExp(urlPattern);
+  }
   if (import_fs.default.existsSync(path)) {
     console.log(`Using "${path}" for network request mocks.`);
     requests = yield (0, import_utils.readFile)(path);
   } else if (import_fs.default.existsSync(`${basePath}.har`)) {
     console.log(`A HAR file was found for "${basePath}", creating a mock file and using it.`);
-    requests = yield (0, import_recorder.readHarFile)(`${basePath}.har`, recordRoute);
+    requests = yield (0, import_recorder.readHarFile)(`${basePath}.har`, recordRoute, patternRegExp);
     yield (0, import_utils.writeFile)(path, requests);
   } else {
     console.log(`Mocks file not found${identifier ? ` for ${identifier}` : ""}, recording a new one!`);
-    requests = yield (0, import_recorder.recordHar)(recordRoute, urlPattern, path, logRecording);
+    requests = yield (0, import_recorder.recordHar)(recordRoute, patternRegExp, path, logRecording);
   }
   if (!!overrideResponses) {
     requests = mergeOverriddenResponses(overrideResponses, requests);

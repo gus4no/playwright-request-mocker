@@ -31,16 +31,16 @@ export const endpointOfUrl = (route: string): string => {
   return routeFrag.substring(routeFrag.indexOf('/'));
 };
 
-export const setHttpLogs = (page: Page, urlPattern: string): void => {
+export const setHttpLogs = (page: Page, urlPattern: RegExp): void => {
   page.on('request', (request: Request) => {
-    if (request.resourceType() === 'xhr' && urlPattern ? new RegExp(urlPattern).test(request.url()) : true) {
+    if (request.resourceType() === 'xhr' && urlPattern ? urlPattern.test(request.url()) : true) {
       console.log('>>', endpointOfUrl(request.url()));
       console.dir(request.postData(), { depth: null });
     }
   });
 
   page.on('response', async (response: Response) => {
-    if (response.request().resourceType() === 'xhr' && urlPattern ? new RegExp(urlPattern).test(response.url()) : true) {
+    if (response.request().resourceType() === 'xhr' && urlPattern ? urlPattern.test(response.url()) : true) {
       console.log('<<', endpointOfUrl(response.url()));
       let responseBody;
       try {

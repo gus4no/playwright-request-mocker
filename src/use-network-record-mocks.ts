@@ -45,6 +45,11 @@ export const useNetworkRecordMocks = async (
   const path = `${basePath}.mocks.json`;
 
   let requests: RecordRequest[] = [];
+  let patternRegExp;
+
+  if (urlPattern) {
+    patternRegExp = new RegExp(urlPattern)
+  }
 
   if (fs.existsSync(path)) {
     console.log(`Using "${path}" for network request mocks.`);
@@ -52,7 +57,7 @@ export const useNetworkRecordMocks = async (
   } else if (fs.existsSync(`${basePath}.har`)) {
     console.log(`A HAR file was found for "${basePath}", creating a mock file and using it.`);
 
-    requests = await readHarFile(`${basePath}.har`, recordRoute);
+    requests = await readHarFile(`${basePath}.har`, recordRoute, patternRegExp);
     await writeFile(path, requests);
   } else {
     console.log(
@@ -60,7 +65,7 @@ export const useNetworkRecordMocks = async (
       }, recording a new one!`
     );
 
-    requests = await recordHar(recordRoute, urlPattern, path, logRecording);
+    requests = await recordHar(recordRoute, patternRegExp, path, logRecording);
   }
 
   if (!!overrideResponses) {

@@ -7,5 +7,5 @@ export declare const mockRouteResponse: (page: Page, url: string, mock: {
     'access-control-allow-origin': string;
 }) => Promise<void>;
 export declare const endpointOfUrl: (route: string) => string;
-export declare const setHttpLogs: (page: Page, urlPattern: string) => void;
+export declare const setHttpLogs: (page: Page, urlPattern: RegExp) => void;
 //# sourceMappingURL=requests-utils.d.ts.map

@@ -49,7 +49,7 @@ var import_test = __toModule(require("@playwright/test"));
 var import_fs = __toModule(require("fs"));
 var import_os = __toModule(require("os"));
 var import_utils = __toModule(require("./utils"));
-const readHarFile = (path, route) => {
+const readHarFile = (path, route, urlPattern) => {
   const host = route.replace("https://", "").replace("http://", "").split("/")[0];
   return new Promise((resolve, reject) => {
     import_fs.default.readFile(path, (err, data) => {
@@ -59,6 +59,9 @@ const readHarFile = (path, route) => {
         const result = JSON.parse(data.toString());
         const xgrRequests = result.log.entries.filter((e) => {
           const url = e.request.url;
+          if (urlPattern) {
+            return urlPattern.test(url);
+          }
           return !url.includes(host) && !/(.png)|(.jpeg)|(.webp)|(.jpg)|(.gif)|(.css)|(.js)|(.woff2)/.test(url) && !/(image)|(font)|(javascript)|(css)|(html)|(text\/plain)/.test(e.response.content.mimeType);
         }).map(({ request, response }) => {
           var _a, _b;
@@ -102,7 +105,7 @@ const recordHar = (route, urlPattern, filePath, logRecording = false) => __async
   try {
     console.log("Processing recording...");
     yield (0, import_utils.waitForFileExists)(filePath);
-    requests = yield readHarFile(harPath, route);
+    requests = yield readHarFile(harPath, route, urlPattern);
     yield (0, import_utils.writeFile)(filePath, requests);
     yield (0, import_utils.removeFile)(harPath);
     console.log("Recording successfully saved!");

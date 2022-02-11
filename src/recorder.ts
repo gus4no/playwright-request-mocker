@@ -11,7 +11,7 @@ import {
 } from "./utils";
 import { HAR, RecordRequest } from "./models";
 
-export const readHarFile = (path: string, route: string): Promise<RecordRequest[]> => {
+export const readHarFile = (path: string, route: string, urlPattern: RegExp): Promise<RecordRequest[]> => {
   const host = route
     .replace("https://", "")
     .replace("http://", "")
@@ -26,6 +26,8 @@ export const readHarFile = (path: string, route: string): Promise<RecordRequest[
         const xgrRequests: RecordRequest[] = result.log.entries
           .filter((e) => {
             const url: string = e.request.url;
+
+            if (urlPattern) { return urlPattern.test(url); }
 
             return (
               !url.includes(host) &&
@@ -65,7 +67,7 @@ export const readHarFile = (path: string, route: string): Promise<RecordRequest[
 
 export const recordHar = async (
   route: string,
-  urlPattern: string,
+  urlPattern: RegExp,
   filePath?: string,
   logRecording = false,
 ): Promise<RecordRequest[]> => {
@@ -101,7 +103,7 @@ export const recordHar = async (
 
     await waitForFileExists(filePath);
 
-    requests = await readHarFile(harPath, route);
+    requests = await readHarFile(harPath, route, urlPattern);
     await writeFile(filePath, requests);
 
     await removeFile(harPath);
