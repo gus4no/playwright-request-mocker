@@ -14,6 +14,7 @@ export declare const useNetworkRecordMocks: (page: Page, configs?: {
     identifier?: string;
     recordRoute?: string;
     logRecording?: boolean;
+    fileName?: string;
     overrideResponses?: {
         [key: string]: any;
     };

@@ -31,15 +31,15 @@ export const useNetworkRecordMocks = async (
     identifier?: string;
     recordRoute?: string;
     logRecording?: boolean;
+    fileName?: string;
     overrideResponses?: { [key: string]: any };
   } = {}
 ): Promise<RecordRequest[]> => {
-  const { identifier, recordRoute, logRecording, overrideResponses } =
+  const { identifier, recordRoute, logRecording, overrideResponses, fileName } =
     configs || {};
 
-  const basePath = `${getCallerFile().replace(".ts", "").replace(".js", "")}${
-    identifier ? `.${identifier}` : ""
-  }`;
+  const basePath = fileName ? fileName : `${getCallerFile().replace(".ts", "").replace(".js", "")}${identifier ? `.${identifier}` : ""
+    }`;
 
   const path = `${basePath}.mocks.json`;
 
@@ -55,8 +55,7 @@ export const useNetworkRecordMocks = async (
     await writeFile(path, requests);
   } else {
     console.log(
-      `Mocks file not found${
-        identifier ? ` for ${identifier}` : ""
+      `Mocks file not found${identifier ? ` for ${identifier}` : ""
       }, recording a new one!`
     );
 

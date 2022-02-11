@@ -70,8 +70,8 @@ const mergeOverriddenResponses = (override, requests) => {
   }));
 };
 const useNetworkRecordMocks = (_0, ..._1) => __async(void 0, [_0, ..._1], function* (page, configs = {}) {
-  const { identifier, recordRoute, logRecording, overrideResponses } = configs || {};
-  const basePath = `${(0, import_utils.getCallerFile)().replace(".ts", "").replace(".js", "")}${identifier ? `.${identifier}` : ""}`;
+  const { identifier, recordRoute, logRecording, overrideResponses, fileName } = configs || {};
+  const basePath = fileName ? fileName : `${(0, import_utils.getCallerFile)().replace(".ts", "").replace(".js", "")}${identifier ? `.${identifier}` : ""}`;
   const path = `${basePath}.mocks.json`;
   let requests = [];
   if (import_fs.default.existsSync(path)) {
