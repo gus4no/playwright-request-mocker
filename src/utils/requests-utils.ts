@@ -42,7 +42,14 @@ export const setHttpLogs = (page: Page): void => {
   page.on('response', async (response: Response) => {
     if (response.request().resourceType() === 'xhr') {
       console.log('<<', endpointOfUrl(response.url()));
-      console.dir(await response.json(), { depth: null });
+      let responseBody;
+      try {
+        responseBody = await response.json()
+      } catch (e) {
+        // if response is not json parseable (empty bodies) just do {}
+        responseBody = {}
+      }
+      console.dir(responseBody, { depth: null });
     }
   });
 };

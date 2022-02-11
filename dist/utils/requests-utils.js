@@ -57,7 +57,13 @@ const setHttpLogs = (page) => {
   page.on("response", (response) => __async(void 0, null, function* () {
     if (response.request().resourceType() === "xhr") {
       console.log("<<", endpointOfUrl(response.url()));
-      console.dir(yield response.json(), { depth: null });
+      let responseBody;
+      try {
+        responseBody = yield response.json();
+      } catch (e) {
+        responseBody = {};
+      }
+      console.dir(responseBody, { depth: null });
     }
   }));
 };
