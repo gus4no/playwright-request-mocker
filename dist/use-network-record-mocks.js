@@ -70,7 +70,7 @@ const mergeOverriddenResponses = (override, requests) => {
   }));
 };
 const useNetworkRecordMocks = (_0, ..._1) => __async(void 0, [_0, ..._1], function* (page, configs = {}) {
-  const { identifier, recordRoute, logRecording, overrideResponses, fileName } = configs || {};
+  const { identifier, recordRoute, logRecording, overrideResponses, fileName, urlPattern } = configs || {};
   const basePath = fileName ? fileName : `${(0, import_utils.getCallerFile)().replace(".ts", "").replace(".js", "")}${identifier ? `.${identifier}` : ""}`;
   const path = `${basePath}.mocks.json`;
   let requests = [];
@@ -83,7 +83,7 @@ const useNetworkRecordMocks = (_0, ..._1) => __async(void 0, [_0, ..._1], functi
     yield (0, import_utils.writeFile)(path, requests);
   } else {
     console.log(`Mocks file not found${identifier ? ` for ${identifier}` : ""}, recording a new one!`);
-    requests = yield (0, import_recorder.recordHar)(recordRoute, path, logRecording);
+    requests = yield (0, import_recorder.recordHar)(recordRoute, urlPattern, path, logRecording);
   }
   if (!!overrideResponses) {
     requests = mergeOverriddenResponses(overrideResponses, requests);

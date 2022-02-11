@@ -32,10 +32,11 @@ export const useNetworkRecordMocks = async (
     recordRoute?: string;
     logRecording?: boolean;
     fileName?: string;
+    urlPattern?: string;
     overrideResponses?: { [key: string]: any };
   } = {}
 ): Promise<RecordRequest[]> => {
-  const { identifier, recordRoute, logRecording, overrideResponses, fileName } =
+  const { identifier, recordRoute, logRecording, overrideResponses, fileName, urlPattern } =
     configs || {};
 
   const basePath = fileName ? fileName : `${getCallerFile().replace(".ts", "").replace(".js", "")}${identifier ? `.${identifier}` : ""
@@ -59,7 +60,7 @@ export const useNetworkRecordMocks = async (
       }, recording a new one!`
     );
 
-    requests = await recordHar(recordRoute, path, logRecording);
+    requests = await recordHar(recordRoute, urlPattern, path, logRecording);
   }
 
   if (!!overrideResponses) {

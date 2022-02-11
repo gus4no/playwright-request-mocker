@@ -47,15 +47,15 @@ const endpointOfUrl = (route) => {
   const routeFrag = route.replace("https://", "");
   return routeFrag.substring(routeFrag.indexOf("/"));
 };
-const setHttpLogs = (page) => {
+const setHttpLogs = (page, urlPattern) => {
   page.on("request", (request) => {
-    if (request.resourceType() === "xhr") {
+    if (request.resourceType() === "xhr" && urlPattern ? new RegExp(urlPattern).test(request.url()) : true) {
       console.log(">>", endpointOfUrl(request.url()));
       console.dir(request.postData(), { depth: null });
     }
   });
   page.on("response", (response) => __async(void 0, null, function* () {
-    if (response.request().resourceType() === "xhr") {
+    if (response.request().resourceType() === "xhr" && urlPattern ? new RegExp(urlPattern).test(response.url()) : true) {
       console.log("<<", endpointOfUrl(response.url()));
       let responseBody;
       try {

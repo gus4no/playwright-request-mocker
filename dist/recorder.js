@@ -81,7 +81,7 @@ const readHarFile = (path, route) => {
     });
   });
 };
-const recordHar = (route, filePath, logRecording = false) => __async(void 0, null, function* () {
+const recordHar = (route, urlPattern, filePath, logRecording = false) => __async(void 0, null, function* () {
   const harPath = filePath.replace(".json", ".temp.har");
   const browser = yield import_test.chromium.launchPersistentContext(`${import_os.default.tmpdir()}/chrome-user-data-dir`, {
     headless: false,
@@ -93,7 +93,7 @@ const recordHar = (route, filePath, logRecording = false) => __async(void 0, nul
   });
   const page = yield browser.newPage();
   yield page.goto(route);
-  logRecording && (0, import_utils.setHttpLogs)(page);
+  logRecording && (0, import_utils.setHttpLogs)(page, urlPattern);
   console.log("Recording requests");
   yield page.pause();
   yield page.close();

@@ -65,8 +65,9 @@ export const readHarFile = (path: string, route: string): Promise<RecordRequest[
 
 export const recordHar = async (
   route: string,
+  urlPattern: string,
   filePath?: string,
-  logRecording = false
+  logRecording = false,
 ): Promise<RecordRequest[]> => {
   const harPath = filePath.replace(".json", ".temp.har");
 
@@ -85,7 +86,7 @@ export const recordHar = async (
   const page = await browser.newPage();
   await page.goto(route);
 
-  logRecording && setHttpLogs(page);
+  logRecording && setHttpLogs(page, urlPattern);
 
   console.log("Recording requests");
 
